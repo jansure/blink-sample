@@ -1,0 +1,37 @@
+package ${beanPackage};
+
+import org.apache.flink.api.common.ExecutionConfig;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.DataStreamSource;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.table.api.Table;
+import org.apache.flink.table.api.java.StreamTableEnvironment;
+import org.apache.flink.types.Row;
+
+public class Flink {
+
+	public static void main(String[] args) throws Exception {
+		apply();
+	}
+
+	public static void apply() throws Exception {
+		String jarFiles = "${jarFiles}";
+		StreamExecutionEnvironment env = StreamExecutionEnvironment.createRemoteEnvironment("${serverHost}", ${serverPort}, jarFiles );
+		StreamTableEnvironment tEnv = StreamTableEnvironment.getTableEnvironment(env);
+
+		DataStreamSource<String> dss = env.readTextFile("${inputFile}");
+		DataStream<${className}> ds = dss.flatMap(new Splitter());
+
+		tEnv.registerDataStream("${tableName}", ds, "${fields}");
+
+		Table result = tEnv.sqlQuery("${sql}");
+
+		tEnv.toRetractStream(result, Row.class).print();
+
+		tEnv.toRetractStream(result, Row.class).addSink(WriterSinkFactory.writer("${outFile}"));
+
+		env.execute();
+		
+	}
+
+}

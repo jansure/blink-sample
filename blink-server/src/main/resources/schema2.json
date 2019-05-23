@@ -1,0 +1,10 @@
+{
+"tableName":"test",
+"path":"file:///d:/test/user.txt",
+"splitter":"\\t",
+"schemas":[
+           {"key":"id","type":"int"},
+           {"key":"name","type":"String"},
+           {"key":"salary","type":"float"}
+          ]
+}

@@ -1,0 +1,13 @@
+{
+"tableName":"dev-metric",
+"path":"file:///d:/aa.log",
+"splitter":"\\t",
+"schemas":[
+           {"key":"name","type":"string"},
+           {"key":"count","type":"int"},
+           {"key":"avg","type":"double"},
+           {"key":"max","type":"float"},
+           {"key":"min","type":"long"},
+           {"key":"time","type":"timestamp"}
+           ]
+}
